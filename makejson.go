@@ -54,8 +54,8 @@ func main() {
 		} else {
 			addr = scanner.Text()
 			idMap["address"] = addr
-			jason, _ := json.Marshal(idMap)
-			fmt.Println(string(jason))
+			jsonStr, _ := json.Marshal(idMap)
+			fmt.Println(string(jsonStr))
 			key = true
 			break
 		}
