@@ -38,10 +38,9 @@ func SortRoutine(arr []int, i int ) {
 
 
 func main() {
-	intArray := make([]int, 8);
+	intArray := make([]int, 12);
 	reader := bufio.NewScanner(os.Stdin) ;
-	fmt.Println("=============Program BubbleSort============") ;
-	fmt.Println("Enter 8 integers to sort :") ;
+	fmt.Println("Enter 12 integers to sort :") ;
 	fmt.Print("> ") ;
 	counter := 0 ;
 	for reader.Scan() {
@@ -59,10 +58,10 @@ func main() {
 		}
 		fmt.Printf("> ")
 	}
-	sub_array_1 := intArray[0:2];
-	sub_array_2 := intArray[2:4];
-	sub_array_3 := intArray[4:6];
-	sub_array_4 := intArray[6:8];
+	sub_array_1 := intArray[0:3];
+	sub_array_2 := intArray[3:6];
+	sub_array_3 := intArray[6:9];
+	sub_array_4 := intArray[9:12];
 	
 	go SortRoutine ( sub_array_1 , 1);
 	go SortRoutine ( sub_array_2, 2);
