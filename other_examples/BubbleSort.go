@@ -11,7 +11,7 @@ package main
 import "fmt"
 
 func scanSlice(n int) ([]int, error) {
-	fmt.Printf("Please Input %d numbers: ", n)
+    fmt.Printf("Please Input %d numbers: ", n)
     x := make([]int, n)
     y := make([]interface{}, len(x))
     for i := range x {
