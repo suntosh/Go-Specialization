@@ -1,4 +1,4 @@
-# Programming with Google Go — Specialization Coursework
+# Programming with Google Go: Specialization Coursework
 
 Assignment solutions and practice programs from the three-course **Programming with Google Go** specialization (University of California, Irvine — instructor Ian Harris, via Coursera).
 
