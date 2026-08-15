@@ -1,136 +1,95 @@
 # Programming with Google Go — Specialization Coursework
 
-Solutions to the programming assignments from the three-course **Programming with Google Go** specialization (University of California, Irvine, via Coursera).
+Assignment solutions and practice programs from the three-course **Programming with Google Go** specialization (University of California, Irvine — instructor Ian Harris, via Coursera).
 
-The specialization introduces the Go programming language from Google and covers its distinguishing features — static typing with type inference, composition over inheritance, implicit interface satisfaction, and CSP-style concurrency built on goroutines and channels. Completing the sequence covers the ground needed to write concise, efficient, and clean Go applications.
+The specialization introduces the Go programming language from Google and its distinguishing features: static typing with inference, composition over inheritance, interfaces satisfied implicitly, and CSP-style concurrency built on goroutines and channels. The three courses run from language fundamentals through methods and interfaces to concurrent programming.
 
-![Go](https://img.shields.io/badge/Go-1.22+-00ADD8?logo=go&logoColor=white)
-![License](https://img.shields.io/badge/license-MIT-blue)
+![Go](https://img.shields.io/badge/Go-1.16-00ADD8?logo=go&logoColor=white)
 
 ---
 
-## Repository Layout
+## How to Run
 
-```
-.
-├── 01-getting-started/       # Course 1 — Getting Started with Go
-├── 02-functions-methods/     # Course 2 — Functions, Methods, and Interfaces in Go
-├── 03-concurrency/           # Course 3 — Concurrency in Go
-├── go.mod
-└── README.md
+Every file in this repository is a standalone `package main` program with its own `main()`. They are **not** a single buildable package — run them one at a time:
+
+```bash
+go run makejson.go
+go run Read.go names.txt
+go run Dining_Philosophers.go
 ```
 
-Each assignment lives in its own directory with a `main.go` and, where the assignment reads input, a sample data file.
+`go build ./...` and `go vet ./...` will fail at the repository root, because multiple `main` functions share one directory and `Module1.go` declares `package main1`. This is a scratchpad repo, not a module.
+
+The concurrency programs are worth running under the race detector — `race.go` in particular exists to demonstrate a race, so the detector should flag it:
+
+```bash
+go run -race race.go
+```
 
 ---
 
 ## Course 1 — Getting Started with Go
 
-Language fundamentals: the compilation and execution model, variables and type inference, the built-in type system, control flow, and Go's composite types.
+Language fundamentals: the compilation model, the type system, control flow, composite types, and structs.
 
-**Topics covered**
-
-- Compilation, the `go` toolchain, and workspace/module organization
-- Variables, constants, type declarations, and type conversion
-- Integers, floats, strings, runes, and the `strings` package
-- Arrays, slices, maps, and their aliasing/growth semantics
-- Structs and the `encoding/json` package
-- Protocol-level basics: RFCs, Unicode, and text encoding
-
-**Assignments**
-
-| # | Assignment | Concepts |
+| File | Assignment | What it does |
 |---|---|---|
-| 1 | Prompt for a name and greet the user | I/O with `bufio`, string trimming |
-| 2 | Read a name and address, emit a JSON object | Maps, `encoding/json`, marshalling |
-| 3 | Read names from a file and sort by last then first name | File I/O, structs, slices, bubble sort |
-| 4 | Animal query program (cow / bird / snake) | Maps of structs, command loops, string parsing |
+| `Trunc.go` | Practice | Reads a float from stdin and prints it truncated to an integer via type conversion |
+| `findian.go` | "Findian" | Reports whether a word starts with `i`, ends with `n`, and contains an `a` — case-insensitive, using `strings.Index` / `LastIndex` / `IndexAny` |
+| `slice.go` | Week 3, Assignment 1 | Reads integers indefinitely into a slice that grows with input, re-sorting after every entry |
+| `makejson.go` | Week 4, Assignment 1 | Prompts for a name and address, builds a `map[string]string`, and marshals it to JSON |
+| `Read.go` | Week 4, Assignment 2 | Reads a file of space-separated first/last names into a slice of `Person` structs and prints them; enforces a 20-character name limit |
+| `Animals.go` | Week 5 | `Animal` struct with pointer-receiver `Eat` / `Move` / `Speak` methods; accepts `<animal> <action>` commands for cow, bird, and snake |
+| `Module1.go` | Scratch | Module-1 notes: constants, `int16` → `int32` conversion. Declares `package main1` and is not runnable as-is |
 
 ---
 
 ## Course 2 — Functions, Methods, and Interfaces in Go
 
-Moving from procedural code to Go's composition-based design: first-class functions, method sets, and interfaces satisfied implicitly rather than by declaration.
+First-class functions and closures, pointer versus value receivers, and interfaces satisfied without declaration.
 
-**Topics covered**
-
-- Functions as values, closures, variadic parameters, and multiple returns
-- Pointers, call-by-value semantics, and when a pointer receiver is required
-- Methods, method sets, and the pointer/value receiver distinction
-- Struct embedding and composition in place of inheritance
-- Interfaces, implicit satisfaction, type assertions, and the empty interface
-- Error handling as values
-
-**Assignments**
-
-| # | Assignment | Concepts |
+| File | Assignment | What it does |
 |---|---|---|
-| 1 | `GenDisplaceFn` — generate a displacement function from acceleration, initial velocity, and initial position | Closures, function values |
-| 2 | In-place bubble sort on a slice of integers | Slices as reference types, call semantics |
-| 3 | Read a file of people and print records via methods | Structs, methods, pointer receivers |
-| 4 | `Animal` interface implemented by `Cow`, `Bird`, and `Snake` | Interfaces, implicit satisfaction, polymorphic dispatch |
+| `BubbleSort.go` | Week 1, Assignment 1 | Reads ten integers into an `[]int64` and sorts in place with bubble sort, demonstrating that slices carry a reference to their backing array |
+| `Displace.go` | Week 2, Assignment 1 | `GenDisplaceFn` — takes acceleration, initial velocity, and initial position, and returns a closure computing `½at² + v₀t + s₀` |
+| `AnimalIntf.go` | Week 4, Assignment 1 | `Animal` **interface** implemented by `Cow`, `Bird`, and `Snake`; supports `newanimal` and `query` commands with a map of interface values |
+
+`Animals.go` (listed under Course 1 above) is the struct-and-methods precursor to `AnimalIntf.go`. Reading the two side by side is the clearest illustration in this repo of what the interface actually buys you — the command loop stops switching on animal type and starts dispatching through the interface.
 
 ---
 
 ## Course 3 — Concurrency in Go
 
-Go's concurrency model and the synchronization primitives that make it safe: goroutines, channels, `select`, and the `sync` package.
+Goroutines, channels, the `sync` package, and classic synchronization problems.
 
-**Topics covered**
-
-- Processes, threads, and the goroutine scheduler
-- Race conditions, mutual exclusion, and `sync.Mutex` / `sync.WaitGroup`
-- Channels as typed conduits; blocking, buffering, and directionality
-- `select`, timeouts, and default cases
-- Classic synchronization problems and deadlock avoidance
-- Sharing memory by communicating rather than communicating by sharing memory
-
-**Assignments**
-
-| # | Assignment | Concepts |
+| File | Assignment | What it does |
 |---|---|---|
-| 1 | Concurrent sort — partition a slice across four goroutines, sort each partition, then merge | Goroutines, `WaitGroup`, partitioning |
-| 2 | Dining Philosophers with a host limiting concurrent diners | Mutexes, deadlock avoidance, resource ordering |
+| `race.go` | Week 2, Assignment 1 | Deliberate race condition: a doughnut maker produces every 1s while an eater consumes every 500ms, driving the shared counter negative and producing a different result on every run |
+| `subarrays.go` | Week 3, Assignment 2 | Splits eight integers into four subarrays, sorts each in its own goroutine under a `sync.WaitGroup`, then merges the results |
+| `Dining_Philosophers.go` | Week 4, Assignment 2 | Dining Philosophers with chopsticks as `sync.Mutex` and a **host** goroutine that admits a limited number of diners at a time via a channel, preventing deadlock without lock ordering |
+| `chan_eg1.go` | Practice | Minimal unbuffered-channel example showing send/receive blocking between a producer goroutine and `main` |
+| `threadedsort.go` | Practice | In-place quicksort with last-element pivot. Despite the filename this one is single-threaded — `subarrays.go` is the concurrent sort |
 
 ---
 
-## Building and Running
+## Other Files
 
-Requires Go 1.22 or later.
+`Testbed.go` is a scratch file of exercises from the video lectures — `strings.Replace` behavior, switch semantics, Fibonacci, and struct literals. Most of it is commented out; uncomment the block you want before running.
 
-```bash
-# Run a single assignment
-cd 03-concurrency/dining-philosophers
-go run main.go
-
-# Build a binary
-go build -o bin/philosophers ./03-concurrency/dining-philosophers
-
-# Vet and format everything
-go vet ./...
-gofmt -l .
-```
-
-For assignments that read input files, run from inside the assignment directory so relative paths resolve.
-
-The concurrency assignments are worth running under the race detector, which is the fastest way to see why the synchronization is written the way it is:
-
-```bash
-go run -race main.go
-```
+`other_examples/` holds earlier drafts and alternate takes on the same assignments — several attempts at the philosophers problem (`philosophers.go`, `philosophers(1).go`, `philosopherss.go`), separate concurrent sorts (`sort_multipleThread.go`, `integer_sort.go`), and kinematics variants (`kinematics.go`, `formula.go`). Filenames overlap with the top-level solutions; the top-level versions are the submitted ones.
 
 ---
 
 ## Notes
 
-Solutions are written to the assignment specification as given, which occasionally means using a simpler algorithm than Go's standard library provides — the sorting assignments call for hand-written bubble and merge implementations rather than `sort.Slice`, because the point is the language mechanics, not the algorithm.
+Solutions follow each assignment specification as written, which sometimes means a hand-rolled algorithm where the standard library would do — bubble sort rather than `sort.Slice`, because the exercise is about slice semantics and call-by-value, not about sorting.
 
-Where the grader accepted a narrower solution than the problem implied, the code here reflects the stated requirements rather than a generalized version.
+Header comments in the submitted files record the class, week, assignment number, and the Go version they were written against (1.16, on Windows). They still build on current Go; nothing here depends on removed APIs or on generics.
 
 ---
 
 ## License
 
-MIT. Course materials and assignment prompts remain the property of the University of California, Irvine and Coursera; only the solution code in this repository is covered by this license.
+Solution code in this repository is released under the MIT License. Course materials and assignment prompts remain the property of the University of California, Irvine and Coursera.
 
-If you are currently taking this specialization, consider Coursera's Honor Code before reading solutions to assignments you have not yet submitted.
+If you are currently enrolled in this specialization, check Coursera's Honor Code before reading solutions to assignments you have not yet submitted.
