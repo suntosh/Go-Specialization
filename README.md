@@ -1,19 +1,30 @@
 # Programming with Google Go: Specialization Coursework
 
+<table>
+<tr>
+<td width="60%" valign="top">
+
+# Programming with Google Go: Specialization Coursework
+
 Assignment solutions and practice programs from the three-course **Programming with Google Go** specialization (University of California, Irvine — instructor Ian Harris, via Coursera).
 
-The specialization introduces the Go programming language from Google and its distinguishing features: static typing with inference, composition over inheritance, interfaces satisfied implicitly, and CSP-style concurrency built on goroutines and channels. The three courses run from language fundamentals through methods and interfaces to concurrent programming.
+The specialization introduces the Go programming language from Google and its distinguishing features: static typing with inference, composition over inheritance, interfaces satisfied implicitly, and CSP-style concurrency built on goroutines and channels.
+
+The three courses progress from language fundamentals through methods and interfaces to concurrent programming.
 
 ![Go](https://img.shields.io/badge/Go-1.16-00ADD8?logo=go&logoColor=white)
 [![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
----
+</td>
 
-<p align="center">
-  <img src="assets/GoCert.jpg"
-       alt=" Machine Learning Engineer Reference"
-       width="40%">
-</p>
+<td width="40%" align="center" valign="top">
+
+<img src="assets/GoCert.jpg"
+     alt="Programming with Google Go Specialization Certificate"
+     width="100%">
+
+</td>
+</tr>
 
 ## How to Run
 
