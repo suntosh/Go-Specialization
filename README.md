@@ -4,8 +4,6 @@
 <tr>
 <td width="60%" valign="top">
 
-# Programming with Google Go: Specialization Coursework
-
 Assignment solutions and practice programs from the three-course **Programming with Google Go** specialization (University of California, Irvine — instructor Ian Harris, via Coursera).
 
 The specialization introduces the Go programming language from Google and its distinguishing features: static typing with inference, composition over inheritance, interfaces satisfied implicitly, and CSP-style concurrency built on goroutines and channels.
@@ -25,6 +23,8 @@ The three courses progress from language fundamentals through methods and interf
 
 </td>
 </tr>
+</tr>
+</table>
 
 ## How to Run
 
