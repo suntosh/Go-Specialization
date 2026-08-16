@@ -13,7 +13,7 @@ The specialization introduces the Go programming language from Google and its di
 ![Go](https://img.shields.io/badge/Go-1.16-00ADD8?logo=go&logoColor=white)
 [![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
-
+<br clear="all" />
 
 ## How to Run
 
