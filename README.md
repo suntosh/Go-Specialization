@@ -12,7 +12,7 @@ The specialization introduces the Go programming language from Google and its di
 <p align="center">
   <img src="assets/GoCert.jpg"
        alt=" Machine Learning Engineer Reference"
-       width="100%">
+       width="40%">
 </p>
 
 ## How to Run
