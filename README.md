@@ -9,6 +9,12 @@ The specialization introduces the Go programming language from Google and its di
 
 ---
 
+<p align="center">
+  <img src="assets/GoCert.jpg"
+       alt=" Machine Learning Engineer Reference"
+       width="100%">
+</p>
+
 ## How to Run
 
 Every file in this repository is a standalone `package main` program with its own `main()`. They are **not** a single buildable package — run them one at a time:
